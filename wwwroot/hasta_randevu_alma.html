@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hasta Paneli - Şifa Hastanesi</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/hasta_randevu_alma.css">
+    <link rel="shortcut icon" href="img/s4.png">
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const bransSelect = document.querySelector('#bransSelect');
+            const doktorSelect = document.querySelector('#doktorSelect');
+
+            // Branşları Yükleme
+            fetch('/api/Randevu/getBrans')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP Hatası! Durum: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    data.forEach(brans => {
+                        const option = document.createElement('option');
+                        option.value = brans.bransId; // Branş ID
+                        option.textContent = brans.bransAd; // Branş Adı
+                        bransSelect.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Bölümler yüklenirken hata oluştu:', error);
+                });
+
+            // Branş Seçildiğinde Doktorları Getirme
+            bransSelect.addEventListener('change', () => {
+                const selectedBransId = bransSelect.value;
+
+                // Doktor Seçimini Temizle
+                doktorSelect.innerHTML = '<option value="">Doktor Seçin</option>';
+
+                if (selectedBransId) {
+                    fetch(`/api/Randevu/getBrans/${selectedBransId}`)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(`HTTP Hatası! Durum: ${response.status}`);
+                            }
+                            return response.json();
+                        })
+                        .then(doktors => {
+                            doktors.forEach(doktor => {
+                                const option = document.createElement('option');
+                                option.value = doktor.doktorId; // Doktor ID
+                                option.textContent = doktor.doktorAd + " " +doktor.doktorSoyad; // Doktor Adı
+                                doktorSelect.appendChild(option);
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Doktorlar yüklenirken hata oluştu:', error);
+                        });
+                }
+            });
+        });
+
+    </script>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="user-info">
+            <h2 class="user-name">Ahmet Yılmaz</h2>
+            <p>Hasta ID: 123456</p>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="hasta_randevu_alma.html" class="nav-link">
+                    <i class="fas fa-calendar-plus"></i>
+                    Randevu Al
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="hasta_gecmis_randevular.html" class="nav-link">
+                    <i class="fas fa-history"></i>
+                    Randevu Geçmişi
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="hasta_profili.html" class="nav-link active">
+                    <i class="fas fa-user"></i>
+                    Profil
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Çıkış Yap
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">
+            <h1>Randevu Al</h1>
+        </div>
+
+        <!-- Appointment Form -->
+        <div class="appointment-form">
+            <form id="appointmentForm">
+                <div class="form-group">
+                    <label class="form-label">Bölüm Seçin</label>
+                    <select class="form-select" id="bransSelect" required>
+                        <option value="">Bölüm Seçin</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Doktor Seçin</label>
+                    <select class="form-select" id="doktorSelect" required>
+                        <option value="">Doktor Seçin</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Tarih Seçin</label>
+                    <select class="form-select" id="dateSelect" required>
+                        <option value="">Uygun Tarih Seçin</option>
+                    </select>
+                </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                        const doktorSelect = document.querySelector('#doktorSelect');
+                        const dateSelect = document.querySelector('#dateSelect');
+
+                        // Doktor Seçildiğinde Uygun Tarihleri Getir
+                        doktorSelect.addEventListener('change', () => {
+                            const selectedDoktorId = doktorSelect.value;
+
+                            // Tarih Seçimini Temizle
+                            dateSelect.innerHTML = '<option value="">Uygun Tarih Seçin</option>';
+
+                            if (selectedDoktorId) {
+                                fetch(`/api/Randevu/getAvailableDates/${selectedDoktorId}`)
+                                    .then(response => {
+                                        if (!response.ok) {
+                                            throw new Error(`HTTP Hatası! Durum: ${response.status}`);
+                                        }
+                                        return response.json();
+                                    })
+                                    .then(dates => {
+                                        dates.forEach(date => {
+                                            const option = document.createElement('option');
+                                            option.value = date; // Tarih değeri
+                                            option.textContent = date; // Görünen metin
+                                            dateSelect.appendChild(option);
+                                        });
+                                    })
+                                    .catch(error => {
+                                        console.error('Uygun tarihler yüklenirken hata oluştu:', error);
+                                    });
+                            }
+                        });
+                    });
+
+                </script>
+                <div class="form-group">
+                    <label class="form-label">Uygun Saatler</label>
+                    <div class="time-slots" id="timeSlotsContainer">
+                        <!-- Saatler burada listelenecek -->
+                    </div>
+                </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                        const dateSelect = document.querySelector('#dateSelect');
+                        const timeSlotsContainer = document.querySelector('#timeSlotsContainer');
+
+                        // Tarih Seçildiğinde Saatleri Getir
+                        dateSelect.addEventListener('change', () => {
+                            const selectedDate = dateSelect.value;
+
+                            // Saatleri Temizle
+                            timeSlotsContainer.innerHTML = '';
+
+                            if (selectedDate) {
+                                fetch(`/api/Randevu/getAvailableTimes/${selectedDate}`)
+                                    .then(response => {
+                                        if (!response.ok) {
+                                            throw new Error(`HTTP Hatası! Durum: ${response.status}`);
+                                        }
+                                        return response.json();
+                                    })
+                                    .then(times => {
+                                        if (times.length === 0) {
+                                            timeSlotsContainer.innerHTML = '<div class="no-times">Bu tarihte uygun saat yok.</div>';
+                                            return;
+                                        }
+
+                                        times.forEach(time => {
+                                            const timeSlot = document.createElement('div');
+                                            timeSlot.classList.add('time-slot');
+                                            timeSlot.textContent = time; // Saat değeri
+                                            timeSlotsContainer.appendChild(timeSlot);
+
+                                            // Saat Seçimi
+                                            timeSlot.addEventListener('click', () => {
+                                                document.querySelectorAll('.time-slot').forEach(slot => slot.classList.remove('selected'));
+                                                timeSlot.classList.add('selected');
+                                            });
+                                        });
+                                    })
+                                    .catch(error => {
+                                        console.error('Uygun saatler yüklenirken hata oluştu:', error);
+                                    });
+                            }
+                        });
+                    });
+
+                </script>
+
+                <button type="submit" class="submit-btn">Randevu Oluştur</button>
+            </form>
+        </div>
+
+        <!-- Appointments Table -->
+        <table class="appointments-table">
+            <thead>
+                <tr>
+                    <th>Tarih</th>
+                    <th>Saat</th>
+                    <th>Doktor</th>
+                    <th>Bölüm</th>
+                    <th>Durum</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>01.05.2024</td>
+                    <td>10:00</td>
+                    <td>Dr. Ahmet Yılmaz</td>
+                    <td>Kardiyoloji</td>
+                    <td><span class="status-badge status-active">Aktif</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Saat seçimi için
+        const timeSlots = document.querySelectorAll('.time-slot:not(.disabled)');
+        timeSlots.forEach(slot => {
+            slot.addEventListener('click', () => {
+                timeSlots.forEach(s => s.classList.remove('selected'));
+                slot.classList.add('selected');
+            });
+        });
+
+        document.getElementById('appointmentForm').addEventListener('submit', (e) => {
+            e.preventDefault(); // Formun varsayılan davranışını engelle
+
+            // Form verilerini toplama
+            const bransId = document.getElementById('bransSelect').value;
+            const doktorId = document.getElementById('doktorSelect').value;
+            const selectedDate = document.getElementById('dateSelect').value;
+            const selectedTimeSlot = document.querySelector('.time-slot.selected')?.textContent;
+
+            // Validasyon
+            if (!bransId || !doktorId || !selectedDate || !selectedTimeSlot) {
+                alert('Lütfen tüm alanları doldurun ve bir saat seçin.');
+                return;
+            }
+
+            // API'ye gönderilecek veri
+            const appointmentData = {
+                BransId: bransId,
+                DoktorId: doktorId,
+                Tarih: selectedDate,
+                Saat: selectedTimeSlot
+            };
+
+            // API çağrısı
+            fetch('/api/Randevu/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(appointmentData)
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP Hatası! Durum: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(result => {
+                    alert('Randevunuz başarıyla oluşturuldu!');
+                    console.log('API Yanıtı:', result);
+                })
+                .catch(error => {
+                    console.error('Randevu oluşturulurken hata oluştu:', error);
+                    alert('Randevu oluşturulamadı. Lütfen tekrar deneyin.');
+                });
+        });
+
+    </script>
+</body>
+</html>

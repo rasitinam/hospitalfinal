@@ -1,0 +1,106 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\rashit\\source\\repos\\hospitalfinal\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{F665EBC4-D761-4FE2-A767-84C5969E1258}|hospitalfinal.csproj|c:\\users\\rashit\\source\\repos\\hospitalfinal\\controller\\randevucontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F665EBC4-D761-4FE2-A767-84C5969E1258}|hospitalfinal.csproj|solutionrelative:controller\\randevucontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F665EBC4-D761-4FE2-A767-84C5969E1258}|hospitalfinal.csproj|c:\\users\\rashit\\source\\repos\\hospitalfinal\\controller\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F665EBC4-D761-4FE2-A767-84C5969E1258}|hospitalfinal.csproj|solutionrelative:controller\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F665EBC4-D761-4FE2-A767-84C5969E1258}|hospitalfinal.csproj|c:\\users\\rashit\\source\\repos\\hospitalfinal\\wwwroot\\hasta_randevu_alma.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F665EBC4-D761-4FE2-A767-84C5969E1258}|hospitalfinal.csproj|solutionrelative:wwwroot\\hasta_randevu_alma.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F665EBC4-D761-4FE2-A767-84C5969E1258}|hospitalfinal.csproj|c:\\users\\rashit\\source\\repos\\hospitalfinal\\viewmodel\\randevuviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F665EBC4-D761-4FE2-A767-84C5969E1258}|hospitalfinal.csproj|solutionrelative:viewmodel\\randevuviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F665EBC4-D761-4FE2-A767-84C5969E1258}|hospitalfinal.csproj|c:\\users\\rashit\\source\\repos\\hospitalfinal\\models\\randevular.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F665EBC4-D761-4FE2-A767-84C5969E1258}|hospitalfinal.csproj|solutionrelative:models\\randevular.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 218,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "C:\\Users\\rashit\\source\\repos\\hospitalfinal\\Controller\\AccountController.cs",
+              "RelativeDocumentMoniker": "Controller\\AccountController.cs",
+              "ToolTip": "C:\\Users\\rashit\\source\\repos\\hospitalfinal\\Controller\\AccountController.cs",
+              "RelativeToolTip": "Controller\\AccountController.cs",
+              "ViewState": "AgIAAG4AAAAAAAAAAAAcwIUAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-10T12:01:54.684Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Randevular.cs",
+              "DocumentMoniker": "C:\\Users\\rashit\\source\\repos\\hospitalfinal\\Models\\Randevular.cs",
+              "RelativeDocumentMoniker": "Models\\Randevular.cs",
+              "ToolTip": "C:\\Users\\rashit\\source\\repos\\hospitalfinal\\Models\\Randevular.cs",
+              "RelativeToolTip": "Models\\Randevular.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-10T11:55:32.829Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "RandevuViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\rashit\\source\\repos\\hospitalfinal\\ViewModel\\RandevuViewModel.cs",
+              "RelativeDocumentMoniker": "ViewModel\\RandevuViewModel.cs",
+              "ToolTip": "C:\\Users\\rashit\\source\\repos\\hospitalfinal\\ViewModel\\RandevuViewModel.cs",
+              "RelativeToolTip": "ViewModel\\RandevuViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-10T11:53:25.848Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "RandevuController.cs",
+              "DocumentMoniker": "C:\\Users\\rashit\\source\\repos\\hospitalfinal\\Controller\\RandevuController.cs",
+              "RelativeDocumentMoniker": "Controller\\RandevuController.cs",
+              "ToolTip": "C:\\Users\\rashit\\source\\repos\\hospitalfinal\\Controller\\RandevuController.cs",
+              "RelativeToolTip": "Controller\\RandevuController.cs",
+              "ViewState": "AgIAAEIAAAAAAAAAAAAcwGcAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-10T09:39:07.156Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "hasta_randevu_alma.html",
+              "DocumentMoniker": "C:\\Users\\rashit\\source\\repos\\hospitalfinal\\wwwroot\\hasta_randevu_alma.html",
+              "RelativeDocumentMoniker": "wwwroot\\hasta_randevu_alma.html",
+              "ToolTip": "C:\\Users\\rashit\\source\\repos\\hospitalfinal\\wwwroot\\hasta_randevu_alma.html",
+              "RelativeToolTip": "wwwroot\\hasta_randevu_alma.html",
+              "ViewState": "AgIAAPkAAAAAAAAAAAAAAPIAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2024-12-10T09:36:45.149Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

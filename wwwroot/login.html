@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="css/login.css">
+    <title>Giriş / Kayıt - Şifa Hastanesi</title>
+	<link rel="shortcut icon" href="img/s4.png" >
+  
+</head>
+<body>
+    <div class="container">
+        <!-- Login Form -->
+        <div class="form-section" id="loginForm">
+            <div class="header">
+                <h1>Giriş Yap</h1>
+                <p>Şifa Hastanesi Randevu Sistemi</p>
+            </div>
+            <form>
+                <div class="form-group">
+                    <label for="loginUserType">Kullanıcı Tipi</label>
+                    <select id="loginUserType" required>
+                        <option value="">Seçiniz</option>
+                        <option value="patient">Hasta</option>
+                        <option value="doctor">Doktor</option>
+                        <option value="secretary">Sekreter</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="loginEmail">E-posta</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Şifre</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="form-btn">Giriş Yap</button>
+            </form>
+            <div class="switch-form">
+                <p>Hesabınız yok mu? <button class="switch-btn" onclick="toggleForm()">Kayıt Ol</button></p>
+            </div>
+        </div>
+
+        <!-- Register Form -->
+        <div class="form-section hidden" id="registerForm">
+            <div class="header">
+                <h1>Kayıt Ol</h1>
+                <p>Şifa Hastanesi Randevu Sistemi</p>
+            </div>
+            <form id="registerForm" onsubmit="submitRegisterForm(event)">
+                <div class="form-group">
+                    <label for="registerUserType">Kullanıcı Tipi</label>
+                    <select id="registerUserType" required>
+                        <option value="">Seçiniz</option>
+                        <option value="patient">Hasta</option>
+                        <option value="doctor">Doktor</option>
+                        <option value="secretary">Sekreter</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="registerName">Ad</label>
+                    <input type="text" id="registerName" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerSurName">Soyad</label>
+                    <input type="text" id="registerSurName" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerTC">T.C. Kimlik No</label>
+                    <input type="text" id="registerTC" required maxlength="11" pattern="[0-9]{11}">
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">E-posta</label>
+                    <input type="email" id="registerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPhone">Telefon</label>
+                    <input type="tel" id="registerPhone" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Şifre</label>
+                    <input type="password" id="registerPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPasswordConfirm">Şifre Tekrar</label>
+                    <input type="password" id="registerPasswordConfirm" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerAdress">Adres</label>
+                    <input type="text" id="registerAdress" required>
+                </div>
+                <button type="submit" class="form-btn">Kayıt Ol</button>
+            </form>
+            <div class="switch-form">
+                <p>Zaten hesabınız var mı? <button class="switch-btn" onclick="toggleForm()">Giriş Yap</button></p>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.querySelector('form').addEventListener('submit', async function (event) {
+            event.preventDefault(); // Formun sayfayı yenilemesini engelle
+
+            // Formdan verileri al
+            const userType = document.getElementById('loginUserType').value;
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            // API'ye gönderilecek veri
+            const data = {
+                userType: userType,
+                email: email,
+                password: password
+            };
+
+            try {
+                // API'ye POST isteği gönder
+                const response = await fetch('/api/account/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                // Yanıtı kontrol et
+                if (response.ok) {
+                    const result = await response.json();
+                    // Başarılı giriş durumunda yapılacak işlemler
+                    console.log(result); // Yanıtı konsola yazdır
+                    localStorage.setItem('jwtToken', result.token);
+                    alert('Giriş başarılı!'); // Başarılı giriş mesajı
+                    window.location.href = "/hasta_profili.html"; // Örnek yönlendirme
+                } else {
+                    // Hata durumu
+                    const error = await response.json();
+                    alert('Giriş başarısız: ' + error.message); // Hata mesajı
+                }
+            } catch (error) {
+                // Fetch hatası
+                console.error('Hata:', error);
+                alert('Bir hata oluştu. Lütfen tekrar deneyin.');
+            }
+        });
+
+
+    </script>
+    <script>
+        async function submitRegisterForm(event) {
+            event.preventDefault();
+
+            // Form verilerini toplama
+            const formData = {
+                userType: document.getElementById("registerUserType").value,
+                name: document.getElementById("registerName").value,
+                surname: document.getElementById("registerSurName").value,
+                tc: document.getElementById("registerTC").value,
+                email: document.getElementById("registerEmail").value,
+                phone: document.getElementById("registerPhone").value,
+                password: document.getElementById("registerPassword").value,
+                confirmPassword: document.getElementById("registerPasswordConfirm").value,
+                adress: document.getElementById("registerAdress").value,
+            };
+
+            // API çağrısı
+            try {
+                const response = await fetch('/api/account/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData),
+                });
+
+                if (response.ok) {
+                    alert('Kayıt başarılı!');
+                    document.getElementById("registerForm").reset();
+                } else {
+                    const errorData = await response.json();
+                    alert(`Hata: ${errorData.message}`);
+                }
+            } catch (error) {
+                console.error('API hatası:', error);
+                alert('Bir hata oluştu. Lütfen tekrar deneyiniz.');
+            }
+        }
+    </script>
+    <script>
+        function toggleForm() {
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+
+            if (loginForm.classList.contains('hidden')) {
+                registerForm.classList.add('hidden');
+                loginForm.classList.remove('hidden');
+            } else {
+                loginForm.classList.add('hidden');
+                registerForm.classList.remove('hidden');
+            }
+        }
+    </script>
+</body>
+</html>

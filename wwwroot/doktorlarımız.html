@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doktorlarımız - Şifa Hastanesi</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="css/doktorlarımız.css" >
+	<link rel="shortcut icon" href="img/s4.png" >
+
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo">Şifa Hastanesi</div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Ana Sayfa</a>
+                <a href="doktorlarımız.html" class="nav-link">Doktorlarımız</a>
+                <a href="servisler.html" class="nav-link">Hizmetlerimiz</a>
+                <a href="iletisim.html" class="nav-link">İletişim</a>
+                <a href="login.html" class="login-btn">Giriş Yap</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <h1 class="page-title">Uzman Doktor Kadromuz</h1>
+        <p>Alanında uzman ve deneyimli doktorlarımızla hizmetinizdeyiz</p>
+    </section>
+
+    <!-- Doctors Container -->
+    <div class="doctors-container">
+        <!-- Department Sections will be dynamically added here -->
+    </div>
+
+    <script>
+        // Örnek doktor verileri (normalde backend'den gelecek)
+        const doctors = [
+            {
+                id: 1,
+                name: "Prof. Dr. Ahmet Yılmaz",
+                department: "Kardiyoloji",
+                experience: "20 yıl",
+                specialization: "Kalp Yetmezliği",
+                workDays: "Pazartesi - Cuma",
+                image: "/api/placeholder/300/200"
+            },
+            {
+                id: 2,
+                name: "Doç. Dr. Ayşe Kaya",
+                department: "Kardiyoloji",
+                experience: "15 yıl",
+                specialization: "Kalp Ritim Bozuklukları",
+                workDays: "Salı - Cumartesi",
+                image: "/api/placeholder/300/200"
+            },
+            {
+                id: 3,
+                name: "Prof. Dr. Mehmet Demir",
+                department: "Nöroloji",
+                experience: "25 yıl",
+                specialization: "Migren ve Baş Ağrıları",
+                workDays: "Pazartesi - Çarşamba",
+                image: "/api/placeholder/300/200"
+            },
+            {
+                id: 4,
+                name: "Uzm. Dr. Zeynep Ak",
+                department: "Nöroloji",
+                experience: "10 yıl",
+                specialization: "Epilepsi",
+                workDays: "Perşembe - Cumartesi",
+                image: "/api/placeholder/300/200"
+            }
+        ];
+
+        // Doktorları branşlara göre grupla
+        function groupDoctorsByDepartment(doctors) {
+            return doctors.reduce((departments, doctor) => {
+                if (!departments[doctor.department]) {
+                    departments[doctor.department] = [];
+                }
+                departments[doctor.department].push(doctor);
+                return departments;
+            }, {});
+        }
+
+        // Doktor kartı HTML'i oluştur
+        function createDoctorCard(doctor) {
+            return `
+                <div class="doctor-card">
+                    <img src="${doctor.image}" alt="${doctor.name}" class="doctor-image">
+                    <div class="doctor-info">
+                        <h3 class="doctor-name">${doctor.name}</h3>
+                        <p class="doctor-specialty">${doctor.department}</p>
+                        <p class="doctor-details">
+                            Deneyim: ${doctor.experience}<br>
+                            Uzmanlık: ${doctor.specialization}<br>
+                            Çalışma Günleri: ${doctor.workDays}
+                        </p>
+                        <a href="#" class="appointment-btn">Randevu Al</a>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Doktorları sayfaya yerleştir
+        function displayDoctors() {
+            const container = document.querySelector('.doctors-container');
+            const groupedDoctors = groupDoctorsByDepartment(doctors);
+
+            for (const [department, departmentDoctors] of Object.entries(groupedDoctors)) {
+                const section = document.createElement('div');
+                section.innerHTML = `
+                    <h2 class="department-title">${department}</h2>
+                    <div class="doctors-grid">
+                        ${departmentDoctors.map(doctor => createDoctorCard(doctor)).join('')}
+                    </div>
+                `;
+                container.appendChild(section);
+            }
+        }
+
+        // Sayfa yüklendiğinde doktorları göster
+        document.addEventListener('DOMContentLoaded', displayDoctors);
+    </script>
+</body>
+</html>

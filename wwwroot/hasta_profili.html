@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil - Şifa Hastanesi</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/hasta_profili.css">
+    <link rel="shortcut icon" href="img/s4.png">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="user-info">
+            <img src="/img/default.png" alt="Hasta Profil" class="user-avatar">
+            <h2 class="user-name" id="hastaAdSoyad"></h2>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="hasta_randevu_alma.html" class="nav-link">
+                    <i class="fas fa-calendar-plus"></i> Randevu Al
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="hasta_gecmis_randevular.html" class="nav-link">
+                    <i class="fas fa-history"></i> Randevu Geçmişi
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="hasta_profili.html" class="nav-link active">
+                    <i class="fas fa-user"></i> Profil
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-sign-out-alt"></i> Çıkış Yap
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">
+            <h1>Profil Bilgileri</h1>
+        </div>
+
+        <div class="profile-container">
+            <!-- Profile Card -->
+            <div class="profile-card">
+                <img src="img/default.png" alt="Profil Fotoğrafı" class="profile-photo">
+                <h2 class="user-name" id="hastaAdSoyadCard">Hasta Adı Soyadı</h2>
+            </div>
+
+            <!-- Profile Info -->
+            <div class="profile-info-card">
+                <div class="section-title">Kişisel Bilgiler</div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">T.C. Kimlik No</label>
+                        <p id="hastaTC" class="form-value"></p>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Ad Soyad</label>
+                        <p id="hastaAdSoyad2" class="form-value"></p>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Doğum Tarihi</label>
+                        <p id="hastaDogumTarihi" class="form-value"></p>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Cinsiyet</label>
+                        <p id="hastaCinsiyet" class="form-value"</p>
+                    </div>  
+                </div>
+
+                <div class="section-title">İletişim Bilgileri</div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">E-posta</label>
+                        <p id="hastaEmail" class="form-value"></p>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Telefon</label>
+                        <p id="hastaTelefon" class="form-value"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Appointment Info -->
+            <div class="appointment-info">
+                <h2>Randevular</h2>
+                <ul id="randevuListesi" class="appointment-list">
+                    <li>Randevu bulunamadı.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function loadPatientProfile() {
+            try {
+                const response = await fetch('/api/account/getPatientProfile');
+                if (response.ok) {
+                    const data = await response.json();
+
+                    // Hasta bilgilerini doldur
+                    const patient = data.patient;
+                    console.log(patient.hastaAd)
+                    document.getElementById('hastaAdSoyad').innerText = `${patient.hastaAd} ${patient.hastaSoyad}`;
+                    document.getElementById('hastaAdSoyad2').innerText = `${patient.hastaAd} ${patient.hastaSoyad}`;
+                    document.getElementById('hastaAdSoyadCard').innerText = `${patient.hastaAd} ${patient.hastaSoyad}`;
+                    document.getElementById('hastaTC').innerText = patient.tc || "Belirtilmemiş";
+                    document.getElementById('hastaDogumTarihi').innerText =  "Belirtilmemiş";
+                    document.getElementById('hastaCinsiyet').innerText = patient.Cinsiyet || "Belirtilmemiş";
+                    document.getElementById('hastaEmail').innerText = patient.email || "Belirtilmemiş";
+                    document.getElementById('hastaTelefon').innerText = patient.telefon || "Belirtilmemiş";
+
+                    // Randevuları doldur
+                    const randevular = data.Randevular;
+                    const randevuListesi = document.getElementById('randevuListesi');
+                    randevuListesi.innerHTML = '';
+
+                    if (randevular.length > 0) {
+                        randevular.forEach(randevu => {
+                            const li = document.createElement('li');
+                            li.innerText = `${randevu.Randevumusaittarih} - ${randevu.Randevumusaitsaat}`;
+                            randevuListesi.appendChild(li);
+                        });
+                    } else {
+                        randevuListesi.innerHTML = '<li>Randevu bulunamadı.</li>';
+                    }
+                } else {
+                    alert('Hasta bilgileri alınamadı!');
+                }
+            } catch (error) {
+                console.error('Hata:', error);
+                alert('Bir hata oluştu, lütfen tekrar deneyin.');
+            }
+        }
+
+        // Sayfa yüklendiğinde hasta bilgilerini yükle
+        document.addEventListener('DOMContentLoaded', loadPatientProfile);
+    </script>
+</body>
+</html>

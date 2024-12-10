@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doktor Paneli - Şifa Hastanesi</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="css/doktor_panel.css">
+	<link rel="shortcut icon" href="img/s4.png" >
+ 
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="doctor-info">
+            <img src="/api/placeholder/50/50" alt="Doktor" class="doctor-avatar">
+            <div>
+                <h2>Dr. Ahmet Yılmaz</h2>
+                <p>Kardiyoloji Uzmanı</p>
+            </div>
+        </div>
+        <div class="header-actions">
+            <button class="header-btn">
+                <i class="fas fa-cog"></i>
+                Ayarlar
+            </button>
+            <button class="header-btn">
+                <i class="fas fa-sign-out-alt"></i>
+                Çıkış
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Calendar Sidebar -->
+        <div class="calendar-card">
+            <input type="date" class="date-picker" id="appointmentDate">
+            <h3>Günlük Program</h3>
+            <ul class="schedule-list" id="scheduleList">
+                <!-- JavaScript ile doldurulacak -->
+            </ul>
+        </div>
+
+        <!-- Appointments Section -->
+        <div class="appointments-section">
+            <div class="section-header">
+                <h2>Randevularım</h2>
+                <div class="tab-buttons">
+                    <button class="tab-btn active">Bugün</button>
+                    <button class="tab-btn">Bu Hafta</button>
+                    <button class="tab-btn">Tümü</button>
+                </div>
+            </div>
+            <div class="appointments-grid" id="appointmentsGrid">
+                <!-- JavaScript ile doldurulacak -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Örnek randevu verileri
+        const appointments = [
+            {
+                time: '09:00',
+                patientName: 'Ayşe Yılmaz',
+                patientId: '12345',
+                age: 45,
+                reason: 'Kontrol',
+                status: 'waiting'
+            },
+            {
+                time: '10:30',
+                patientName: 'Mehmet Demir',
+                patientId: '12346',
+                age: 52,
+                reason: 'İlk Muayene',
+                status: 'waiting'
+            },
+            {
+                time: '11:30',
+                patientName: 'Fatma Kaya',
+                patientId: '12347',
+                age: 38,
+                reason: 'Test Sonuçları',
+                status: 'completed'
+            }
+        ];
+
+        // Randevuları görüntüleme
+        function displayAppointments() {
+            const grid = document.getElementById('appointmentsGrid');
+            grid.innerHTML = appointments.map(appointment => `
+                <div class="appointment-card">
+                    <div class="appointment-time">
+                        <i class="far fa-clock"></i>
+                        ${appointment.time}
+                    </div>
+                    <div class="patient-info">
+                        <div class="patient-name">${appointment.patientName}</div>
+                        <div class="patient-details">
+                            <p>Hasta ID: ${appointment.patientId}</p>
+                            <p>Yaş: ${appointment.age}</p>
+                            <p>Sebep: ${appointment.reason}</p>
+                        </div>
+                    </div>
+                    <div class="appointment-actions">
+                        <button class="action-btn start-btn">
+                            <i class="fas fa-play"></i>
+                            Başlat
+                        </button>
+                        <button class="action-btn cancel-btn">
+                            <i class="fas fa-times"></i>
+                            İptal
+                        </button>
+                    </div>
+                    <span class="status-badge status-${appointment.status}">
+                        ${appointment.status === 'waiting' ? 'Bekliyor' : 'Tamamlandı'}
+                    </span>
+                </div>
+            `).join('');
+        }
+
+        // Program listesini güncelleme
+        function updateSchedule(date) {
+            const list = document.getElementById('scheduleList');
+            list.innerHTML = appointments.map(appointment => `
+                <li class="schedule-item">
+                    <span class="time-slot">${appointment.time}</span>
+                    <span>${appointment.patientName}</span>
+                </li>
+            `).join('');
+        }
+
+        // Event Listeners
+        document.getElementById('appointmentDate').addEventListener('change', (e) => {
+            updateSchedule(e.target.value);
+        });
+
+        // Sayfa yüklendiğinde
+        document.addEventListener('DOMContentLoaded', () => {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('appointmentDate').value = today;
+            displayAppointments();
+            updateSchedule(today);
+        });
+    </script>
+</body>
+</html>

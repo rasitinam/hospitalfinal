@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Özel Şifa Hastanesi</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="css/index.css" >
+	<link rel="shortcut icon" href="img/s4.png" >
+
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo">Şifa Hastanesi</div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Ana Sayfa</a>
+                <a href="doktorlarımız.html" class="nav-link">Doktorlarımız</a>
+                <a href="servisler.html" class="nav-link">Hizmetlerimiz</a>
+                <a href="iletisim.html" class="nav-link">İletişim</a>
+                <a href="login.html" class="login-btn">Giriş Yap</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Slider Section -->
+    <section class="slider">
+        <div class="slide slide-1 active">
+            <div class="slide-content">
+                <h1 style="font-size: 3.5rem; margin-bottom: 1rem;">Sağlığınız Bizim Önceliğimiz</h1>
+                <p style="font-size: 1.2rem; margin-bottom: 2rem;">Uzman kadromuz ve modern teknolojimizle size en iyi sağlık hizmetini sunuyoruz.</p>
+                <a href="login.html" class="login-btn" style="font-size: 1.1rem; padding: 1rem 2rem;">Randevu Al</a>
+            </div>
+        </div>
+        <div class="slide slide-2">
+            <div class="slide-content">
+                <h1 style="font-size: 3.5rem; margin-bottom: 1rem;">Modern Tıbbi Teknoloji</h1>
+                <p style="font-size: 1.2rem; margin-bottom: 2rem;">En son teknoloji cihazlarla teşhis ve tedavi hizmeti</p>
+                <a href="servisler.html" class="login-btn" style="font-size: 1.1rem; padding: 1rem 2rem;">Hizmetlerimiz</a>
+            </div>
+        </div>
+        <div class="slide slide-3">
+            <div class="slide-content">
+                <h1 style="font-size: 3.5rem; margin-bottom: 1rem;">7/24 Sağlık Hizmeti</h1>
+                <p style="font-size: 1.2rem; margin-bottom: 2rem;">Deneyimli kadromuzla her zaman yanınızdayız</p>
+                <a href="iletisim.html" class="login-btn" style="font-size: 1.1rem; padding: 1rem 2rem;">Bize Ulaşın</a>
+            </div>
+        </div>
+        <div class="slider-nav">
+            <div class="slider-dot active"></div>
+            <div class="slider-dot"></div>
+            <div class="slider-dot"></div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <h2 class="section-title">Neden Biz?</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="fas fa-user-md feature-icon"></i>
+                <h3>Uzman Doktorlar</h3>
+                <p>Alanında uzman doktor kadromuzla sizlere en iyi hizmeti sunuyoruz. Her biri kendi alanında yılların deneyimine sahip uzman hekimlerimiz, sağlığınız için çalışıyor.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-clock feature-icon"></i>
+                <h3>Online Randevu</h3>
+                <p>7/24 online randevu sistemi ile dilediğiniz zaman randevu alabilirsiniz. Kullanıcı dostu arayüzümüz ile randevu almak artık çok kolay.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-hospital feature-icon"></i>
+                <h3>Modern Teknoloji</h3>
+                <p>En son teknoloji tıbbi cihazlarla teşhis ve tedavi hizmeti veriyoruz. Modern altyapımız ile sağlığınız için en doğru kararları alıyoruz.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-container">
+            <div class="stat-item">
+                <h4>50+</h4>
+                <p>Uzman Doktor</p>
+            </div>
+            <div class="stat-item">
+                <h4>10.000+</h4>
+                <p>Mutlu Hasta</p>
+            </div>
+            <div class="stat-item">
+                <h4>20+</h4>
+                <p>Branş</p>
+            </div>
+            <div class="stat-item">
+                <h4>15</h4>
+                <p>Yıllık Deneyim</p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Slider functionality
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.slider-dot');
+        let currentSlide = 0;
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            slides[index].classList.add('active');
+            dots[index].classList.add('active');
+        }
+
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                currentSlide = index;
+                showSlide(currentSlide);
+            });
+        });
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        // Auto-advance slides every 5 seconds
+        setInterval(nextSlide, 5000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Randevu Geçmişi - Şifa Hastanesi</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="css/hasta_gecmis_randevular.css">
+	<link rel="shortcut icon" href="img/s4.png" >
+  
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="user-info">
+            <img src="/api/placeholder/80/80" alt="Hasta Profil" class="user-avatar">
+            <h2 class="user-name">Ahmet Yılmaz</h2>
+            <p>Hasta ID: 123456</p>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="hasta_randevu_alma.html" class="nav-link">
+                    <i class="fas fa-calendar-plus"></i>
+                    Randevu Al
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="hasta_gecmis_randevular.html" class="nav-link">
+                    <i class="fas fa-history"></i>
+                    Randevu Geçmişi
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="hasta_profili.html" class="nav-link active">
+                    <i class="fas fa-user"></i>
+                    Profil
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Çıkış Yap
+                </a>
+            </li>
+        </ul>
+    </div>
+
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">
+            <h1>Randevu Geçmişi</h1>
+        </div>
+
+        <div id="historyContainer" class="history-container">
+            <!-- Veriler JavaScript ile doldurulacak -->
+        </div>
+    </div>
+
+    <script>
+        // Randevu verilerini getiren fonksiyon
+        async function getAppointmentHistory() {
+            const container = document.getElementById('historyContainer');
+            container.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Yükleniyor...</div>';
+
+            try {
+                // Burada gerçek API endpoint'inizi kullanın
+                const response = await fetch('/api/appointment-history');
+                const data = await response.json();
+
+                if (data.length === 0) {
+                    container.innerHTML = '<div class="history-item">Henüz randevu geçmişiniz bulunmuyor.</div>';
+                    return;
+                }
+
+                container.innerHTML = data
+                    .sort((a, b) => new Date(b.date) - new Date(a.date))
+                    .map(appointment => `
+                        <div class="history-item">
+                            <div class="history-date">
+                                <div class="day">${new Date(appointment.date).toLocaleDateString('tr-TR')}</div>
+                                <div class="time">${appointment.time}</div>
+                            </div>
+                            <div class="history-details">
+                                <h3>${appointment.doctorName}</h3>
+                                <p><i class="fas fa-stethoscope"></i>${appointment.department}</p>
+                                <p><i class="fas fa-clinic-medical"></i>${appointment.clinic}</p>
+                                ${appointment.notes ? `<p><i class="fas fa-comment-medical"></i>${appointment.notes}</p>` : ''}
+                            </div>
+                            <div class="status-badge status-${appointment.status.toLowerCase()}">
+                                ${appointment.status === 'completed' ? 'Tamamlandı' : 
+                                  appointment.status === 'cancelled' ? 'İptal Edildi' : 'Yaklaşan'}
+                            </div>
+                        </div>
+                    `).join('');
+
+            } catch (error) {
+                container.innerHTML = `
+                    <div class="error">
+                        <i class="fas fa-exclamation-circle"></i>
+                        Randevu geçmişi yüklenirken bir hata oluştu.
+                    </div>
+                `;
+                console.error('Veri çekme hatası:', error);
+            }
+        }
+
+        // Sayfa yüklendiğinde randevu geçmişini getir
+        document.addEventListener('DOMContentLoaded', getAppointmentHistory);
+    </script>
+</body>
+</html>
